@@ -1,68 +1,91 @@
-# MacCut
+<p align="center">
+  <img src="assets/icon.png" width="128" alt="MacCut icon">
+</p>
 
-Cut and paste files in Finder with **⌘X** and **⌘V**, the same way as Ctrl+X on Windows.
+<h1 align="center">MacCut</h1>
 
-MacCut is a small menu bar app. It runs entirely on your Mac and never connects to the network.
+<p align="center">
+  <b>⌘X now cuts files in Finder. ⌘V moves them.</b><br>
+  The shortcut you reach for every day, finally working the way you expect.
+</p>
 
-## Features
+<p align="center">
+  <a href="https://github.com/njirapat/MacCut/releases/latest"><img src="https://img.shields.io/github/v/release/njirapat/MacCut?label=download&amp;color=f07014" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-555" alt="macOS 14+">
+  <img src="https://img.shields.io/badge/Apple%20Silicon%20%7C%20Intel-universal-3478f6" alt="Universal binary">
+  <img src="https://img.shields.io/badge/network-none-2ea44f" alt="No network access">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/njirapat/MacCut?color=555" alt="MIT License"></a>
+</p>
 
-- **⌘X, then ⌘V** in Finder moves files and folders. If you cut and never paste, nothing moves.
-- **Text editing still works.** While renaming a file or typing in the search field, ⌘X cuts text as usual.
-- **Menu bar status.** The icon shows when a cut is waiting to be pasted.
-- **Reliable Mode.** If another app (a password manager, a browser) intercepts ⌘X or ⌘V, switch to Reliable Mode: MacCut asks Finder to move the items directly instead of sending keystrokes.
-- **Safe replace.** In Reliable Mode, a name clash asks Replace, Keep Both or Stop (with Apply to all). Replaced items go to the Trash, so they can be restored. (Finder's own scripted replace deletes them permanently.)
-- **Open at Login** from the menu.
-- **No network access.** No telemetry, no update checks, no accounts.
-- Universal binary (Apple Silicon and Intel), macOS 14 or later.
+---
+
+## Why MacCut
+
+**🔒 Zero network access.** No telemetry, no update checks, no account. MacCut never talks to the internet, and the whole app is about 550 lines of Swift you can read in ten minutes. A tool that watches your keyboard should be this boring.
+
+**✍️ Never gets in the way of typing.** Renaming a file or typing in Finder's search field? ⌘X cuts text exactly as it always has. MacCut only acts on files.
+
+**🗑️ Nothing is ever lost.** If you cut and never paste, nothing moves. On a name clash you choose Replace, Keep Both or Stop, and replaced files go to the Trash so you can put them back.
+
+**🛟 Works when other apps fight for the shortcut.** Password managers and browsers sometimes grab ⌘X or ⌘V. Flip on Reliable Mode and MacCut asks Finder to move the files directly.
+
+**👀 You always know what is going on.** The menu bar icon shows when a cut is waiting to be pasted.
+
+## How it works for you
+
+1. Select files in Finder and press **⌘X**.
+2. Open the destination folder and press **⌘V**.
+3. That's it. Press **⌘C** any time to cancel the cut.
+
+<p align="center">
+  <img src="assets/guide.png" width="380" alt="MacCut guide window">
+</p>
 
 ## Install
 
-1. Download `MacCut-x.y.z.zip` from [Releases](https://github.com/njirapat/MacCut/releases) and unzip it.
-2. Move `MacCut.app` to your Applications folder.
-3. MacCut is not notarized by Apple, so remove the download quarantine flag once:
-   ```bash
-   xattr -dr com.apple.quarantine /Applications/MacCut.app
-   ```
-4. Open MacCut. The guide window shows **Grant Permission**: click it and turn on MacCut in
-   System Settings > Privacy & Security > **Device Control and Data Access**
-   (called **Accessibility** on macOS 26 and earlier). MacCut starts within two seconds.
+1. [Download the latest release](https://github.com/njirapat/MacCut/releases/latest), unzip it and drag **MacCut.app** to Applications.
+2. MacCut is not notarized by Apple (see [FAQ](#faq)), so allow it once, either way:
+   - **No Terminal:** open MacCut, close the warning, then go to System Settings › Privacy & Security, scroll down and click **Open Anyway**.
+   - **Terminal:**
+     ```bash
+     xattr -dr com.apple.quarantine /Applications/MacCut.app
+     ```
+3. Open MacCut and click **Grant Permission**. Turn on MacCut in System Settings › Privacy & Security › **Device Control and Data Access** (called **Accessibility** on macOS 26 and earlier).
 
-Reliable Mode asks for one more permission (to control Finder) the first time you use it.
+Turn on **Open at Login** from the menu bar icon and forget about it.
+
+## FAQ
+
+**Why does it need permission?**
+To notice ⌘X and ⌘V while Finder is in front. Every app that changes keyboard shortcuts needs this. MacCut ignores every other key and every other app, and it contains no networking code at all.
+
+**Why the extra step to open it?**
+Notarizing an app requires a paid Apple Developer membership. MacCut is not notarized, so macOS blocks the download until you allow it once. If you prefer, [build it yourself](#build-from-source) in one command.
+
+**Why not the Mac App Store?**
+Publishing there needs a paid Apple Developer membership. MacCut is a free side project, so it ships here, with the source next to the download.
+
+**What is Reliable Mode?**
+Normally MacCut turns ⌘X into Finder's copy and ⌘V into Finder's "Move Item Here" (⌥⌘V). Reliable Mode skips keystrokes entirely and tells Finder to move the selected files. Use it only if files do not move in normal mode.
+
+**What does it not do?**
+Edit › Paste from the menu bar copies as usual; use the keyboard shortcut to move. As in Finder, open the destination folder before pasting.
 
 ## Build from source
 
-Requires the Xcode Command Line Tools (`xcode-select --install`). Xcode itself is not needed.
+Needs only the Xcode Command Line Tools (`xcode-select --install`), not Xcode.
 
 ```bash
-git clone https://github.com/njirapat/MacCut.git
-cd MacCut
-bash build.sh            # -> build/MacCut.app
-bash release.sh          # -> dist/MacCut-<version>.zip
+git clone https://github.com/njirapat/MacCut.git && cd MacCut
+bash build.sh      # -> build/MacCut.app
+bash release.sh    # -> dist/MacCut-<version>.zip
 ```
 
-Each local build is signed ad hoc, so macOS treats a rebuilt app as a new app: remove MacCut from the
-permission list and add it again after rebuilding.
-
-## How it works
-
-| Mode | ⌘X in Finder | ⌘V in Finder |
-|---|---|---|
-| Normal | Sent to Finder as ⌘C, and MacCut remembers the clipboard state | If the clipboard still holds the cut items, sent as ⌥⌘V (Move Item Here) |
-| Reliable | MacCut records the selected items via AppleScript | MacCut tells Finder to move them to where Finder would paste |
-
-Pressing ⌘C, or copying anything else after a cut, cancels the cut.
+A locally built app is signed ad hoc, so after each rebuild remove MacCut from the permission list and add it again.
 
 ## Uninstall
 
-1. Choose **Quit** from the MacCut menu, and turn off **Open at Login** first if you enabled it.
-2. Move `/Applications/MacCut.app` to the Trash.
-3. Remove MacCut from System Settings > Privacy & Security > Device Control and Data Access.
-
-## Limitations
-
-- Pasting with Edit > Paste in the menu bar does not move files. Use the keyboard shortcut.
-- You must open the destination folder before pasting (standard Finder behavior).
-- Builds are not notarized, so step 3 of Install is required.
+Turn off **Open at Login**, choose **Quit**, move MacCut.app to the Trash, and remove it from Privacy & Security.
 
 ## License
 
