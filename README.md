@@ -56,20 +56,33 @@ Turn on **Open at Login** from the menu bar icon and forget about it.
 
 ## FAQ
 
-**Why does it need permission?**
-To notice ⌘X and ⌘V while Finder is in front. Every app that changes keyboard shortcuts needs this. MacCut ignores every other key and every other app, and it contains no networking code at all.
+### Why does it need permission?
 
-**Why the extra step to open it?**
-Notarizing an app requires a paid Apple Developer membership. MacCut is not notarized, so macOS blocks the download until you allow it once. If you prefer, [build it yourself](#build-from-source) in one command.
+- To notice ⌘X and ⌘V while Finder is in front.
+- Every app that changes keyboard shortcuts needs this.
+- MacCut ignores every other key and every other app, and contains no networking code at all.
 
-**Why not the Mac App Store?**
-Publishing there needs a paid Apple Developer membership. MacCut is a free side project, so it ships here, with the source next to the download.
+### Why the extra step to open it?
 
-**What is Reliable Mode?**
-Normally MacCut turns ⌘X into Finder's copy and ⌘V into Finder's "Move Item Here" (⌥⌘V). Reliable Mode skips keystrokes entirely and tells Finder to move the selected files. Use it only if files do not move in normal mode.
+- Notarizing an app requires a paid Apple Developer membership.
+- MacCut is not notarized, so macOS blocks the download until you allow it once.
+- Prefer not to? [Build it yourself](#build-from-source) in one command.
 
-**What does it not do?**
-Edit › Paste from the menu bar copies as usual; use the keyboard shortcut to move. As in Finder, open the destination folder before pasting.
+### Why not the Mac App Store?
+
+- Publishing there needs a paid Apple Developer membership.
+- MacCut is a free side project, so it ships here, with the source next to the download.
+
+### What is Reliable Mode?
+
+- **Normal mode:** ⌘X becomes Finder's copy, ⌘V becomes Finder's "Move Item Here" (⌥⌘V).
+- **Reliable Mode:** skips keystrokes and tells Finder to move the selected files directly.
+- Turn it on only if files do not move in normal mode.
+
+### What does it not do?
+
+- Edit › Paste from the menu bar copies as usual. Use the keyboard shortcut to move.
+- As in Finder, open the destination folder before pasting.
 
 ## Build from source
 
